@@ -1,0 +1,38 @@
+<!doctype html>
+<html ng-app="app">
+  <head>
+    <title>My Angular App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    
+  </head>
+  <body>
+      <div ng-controller="reportCtrl">
+          <div ng-repeat="report in reports">
+              <h3> {{report.path}}</h3>
+              <b>time:</b> {{report.time}} <br>
+              <b>method:</b> {{report.method}} <br>
+              <b>params:</b>
+              <div style="margin-left: 1em; background-color: gray"
+                   ng-repeat="(key, val) in report.params">
+                  <b>{{key}}:</b> {{val}} <br>
+              </div>
+              <b>Headers:</b>
+              <div style="margin-left: 1em; background-color: gray"
+                   ng-repeat="(key, val) in report.headers">
+                  <b>{{key}}:</b> {{val}} <br>
+              </div>
+              <hr>
+          </div>
+      </div>
+  </body>
+  <script>
+        angular.module('app', [])
+        .controller('reportCtrl', function($scope, $http){
+            $http.get('/jsonreport')
+                .then(function(response){
+                    $scope.reports = response.data;
+                }
+            );
+        });
+    </script>
+</html>
